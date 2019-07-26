@@ -5,7 +5,9 @@
 Download this repository to your machine's home directory:
 
 `cd ~`
+
 `git clone https://github.com/biomiller/Node_assessment.git`
+
 `cd Node_assessment`
 
 Install docker and docker-compose (requires sudo):
@@ -34,8 +36,22 @@ Create a test user:
 
 _Expected response: 'Added new User.'_
 
+Check our user has persisted:
+
+`curl -i -X POST -H "Content-Type: application/json" -d "{\"username\":\"testUser\", \"password\":\"password\"}" http://localhost:5000/user/login`
+
+_Expected response: 'Logged in.'_
+
 Create a test item for testUser:
 
 `curl -i -X POST -H "Content-Type: application/json" -d "{\"username\":\"testUser\", \"password\":\"password\",\"title\":\"testTitle\", \"content\":\"testContent\"}" http://localhost:5000/item/createItem`
 
 _Expected response: 'Added new Item'_
+
+Check our item has persisted:
+
+`curl -i -X POST -H "Content-Type: application/json" -d "{\"username\":\"testUser\", \"password\":\"password\"}" http://localhost:5000/item/getItems`
+
+_Expected response (id will differ):_ `[{"_id":"5d3b02db5817038c756f5f65","username":"testUser","title":"testTitle","content":"testContent","__v":0}]`
+
+
