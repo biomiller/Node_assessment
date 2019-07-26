@@ -1,7 +1,7 @@
 version: '3.7'
 services:          
     mongo:
-        image: 'teamdeadweight/mongo:latest'
+        image: 'mongo:latest'
         ports:
             - {target: 27017, protocol: tcp}
         deploy:
