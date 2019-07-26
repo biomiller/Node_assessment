@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const user = require("./routes/user.js");
+const item = require("./routes/item.js");
 
 // letting app use json
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,6 +17,7 @@ app.listen(port, () => console.log(`server running on port ${port}`));
 
 // routes
 app.use("/user", user);
+app.use("/item", item);
 
 // mongoose
 
