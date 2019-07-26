@@ -38,3 +38,20 @@ validators.validatePassword = function (data) {
     return {errors, isValid: isEmpty(errors)};
 };
 
+validators.validateUsername = function (data) {
+
+    const errors = {};
+
+    data.username = !isEmpty(data.username) ? data.username : "";
+
+    if (Validator.isEmpty(data.username)) {
+        errors.username = "Username is required.";
+    }
+
+    else if (!Validator.isAlphanumeric(data.username)){
+        errors.username = "Username must only include numbers and letters.";
+    }
+
+    return {errors, isValid: isEmpty(errors)};
+};
+

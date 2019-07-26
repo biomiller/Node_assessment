@@ -1,6 +1,8 @@
 const Validator = require("validator");
 const isEmpty = require("./isEmpty");
 
+const validators = module.exports = {}
+
 module.exports = function validateUsername(data) {
 
     const errors = {};

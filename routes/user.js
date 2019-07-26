@@ -25,7 +25,7 @@ router.get("/getAll", (req, res) => {
             }
             res.json(users);
         })
-        .catch(err => res.status(404).json({ noItems: "There are no users." }));
+        .catch(err => res.status(404).send("There are no users." ));
 });
 
 // @route DELETE user/deleteAllUsers
@@ -35,7 +35,7 @@ router.delete("/deleteAllUsers", (req, res) => {
 
     User.deleteMany({})
         .then(() => res.status(200).send("All users deleted."))
-        .catch(err => res.status(404).json({ noItems: "Users not deleted." }))
+        .catch(err => res.status(404).send("There are no users."))
 
 });
 
@@ -46,8 +46,9 @@ router.post("/register", (req, res) => {
 
     let ve = validators.validateEmail(req.body);
     let vp = validators.validatePassword(req.body);
+    let vu = validators.validateUsername(req.body);
 
-    if (ve.isValid && vp.isValid) {
+    if (ve.isValid && vp.isValid && vu.isValid) {
 
         let newUser = new User({
             username: req.body.username,
@@ -65,7 +66,7 @@ router.post("/register", (req, res) => {
                             newUser.save()
                             res.status(200).send("Added new User.")
                         })
-                        .catch(err => res.status(404).json({ noItems: "User not added." }))
+                        .catch(err => res.status(404).send("User not added."))
 
                 } else if (user.username != newUser.username && user.email != newUser.email) {
 
@@ -75,7 +76,7 @@ router.post("/register", (req, res) => {
                             newUser.save()
                             res.status(200).send("Added new User.")
                         })
-                        .catch(err => res.status(404).json({ noItems: "User not added." }))
+                        .catch(err => res.status(404).send("User not added." ))
 
                 } else if (user.username == newUser.username) {
                     res.status(404).send("A user with that username already exists.");
@@ -89,10 +90,15 @@ router.post("/register", (req, res) => {
         res.status(404).send(ve.errors);
     } else if (vp.isValid == false) {
         res.status(404).send(vp.errors);
+    } else if (vu.isValid == false) {
+        res.status(404).send(vu.errors);
     }
 })
 
 
+// @route POST user/login
+// @desc login if existing user and password matches 
+// @access Public
 router.post("/login", (req, res) => {
 
     User.findOne({ "username": req.body.username })
