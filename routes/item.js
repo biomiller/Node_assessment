@@ -66,7 +66,7 @@ router.post("/createItem", (req, res) => {
                                 .then(item => {
                                     if (!item || !item.length) {
                                         newItem.save()
-                                        res.status(200).send("Added new Item")
+                                        res.status(200).send("Added new Item.")
                                     } else {
                                         res.status(200).send("An item already exists with that title.")
                                     }
