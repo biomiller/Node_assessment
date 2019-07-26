@@ -22,7 +22,7 @@ app.use("/item", item);
 // mongoose
 
 // connect to a locally running mongo database
-let URI = 'mongodb://localhost:27017/example';
+let URI = 'mongodb://mongo:27017/example';
 let OPTS = { useNewUrlParser: true };
 mongoose.connect(URI, OPTS)
     .then(

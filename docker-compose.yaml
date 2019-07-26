@@ -8,9 +8,9 @@ services:
          placement:
           constraints: [node.role == manager]
     server:
-     image: biomiller/db_server
-      ports:
-        - {target: 5000, protocol: tcp, published: 5000}
-     depends_on:
-     - mongo
+        image: biomiller/db_server
+        ports:
+            - {target: 5000, protocol: tcp, published: 5000}
+        depends_on:
+            - mongo
 
