@@ -15,12 +15,12 @@ router.get("/getAll", (req, res) => {
     User.find({}, '-password')
         .then(users => {
             if (!users) {
-                errors.noUsers = "There are no users";
+                errors.noUsers = "There are no users.";
                 res.status(404).json(errors);
             }
             res.json(users);
         })
-        .catch(err => res.status(404).json({ noItems: "There are no users" }));
+        .catch(err => res.status(404).json({ noItems: "There are no users." }));
 });
 
 // @route DELETE items/deleteManyItems
@@ -29,7 +29,7 @@ router.get("/getAll", (req, res) => {
 router.delete("/deleteAllUsers", (req, res) => {
 
     User.deleteMany({})
-        .then(() => res.status(200).send("All users deleted"))
+        .then(() => res.status(200).send("All users deleted."))
         .catch(err => res.status(404).json({ noItems: "Users not deleted." }))
 
 });
@@ -47,23 +47,42 @@ router.post("/register", (req, res) => {
             password: req.body.password
         });
 
-        bcrypt.hash(req.body.password, 10)
-            .then((hash) => {
-                newUser.password = hash
-                newUser.save()
-                res.status(200).send("Added new User")
-            })
-            .catch(err => res.status(404).json({ noItems: "User not added." }))
+        User.findOne({$or: [{ "username": req.body.username}, {"email":req.body.email}]})
+        .then(user => {
+            if (!user) {
+
+                bcrypt.hash(req.body.password, 10)
+                    .then((hash) => {
+                        newUser.password = hash
+                        newUser.save()
+                        res.status(200).send("Added new User.")
+                    })
+                    .catch(err => res.status(404).json({ noItems: "User not added." }))
+
+            } else if (user.username != newUser.username && user.email != newUser.email) {
+
+                bcrypt.hash(req.body.password, 10)
+                    .then((hash) => {
+                        newUser.password = hash
+                        newUser.save()
+                        res.status(200).send("Added new User.")
+                    })
+                    .catch(err => res.status(404).json({ noItems: "User not added." }))
+            
+            } else if (user.username == newUser.username) {
+                res.status(404).send("A user with that username already exists.");
+            } else if (user.email == newUser.email) {
+                res.status(404).send("A user with that email already exists.");
+            }
+
+        })
 
     } else if (ve.isValid == false) {
         res.status(404).send(ve.errors);
     } else if (vp.isValid == false) {
         res.status(404).send(vp.errors);
-    } else {
-        console.log(ve.errors);
-        console.log(vp.errors);
-    }
+    } 
+})
 
-});
 
 module.exports = router;
