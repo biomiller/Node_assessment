@@ -1,0 +1,16 @@
+version: '3.7'
+services:          
+    mongo:
+        image: 'mongo:latest'
+        ports:
+            - {target: 27017, protocol: tcp}
+        deploy:
+         placement:
+          constraints: [node.role == manager]
+    server:
+        image: biomiller/db_server
+        ports:
+            - {target: 5000, protocol: tcp, published: 5000}
+        depends_on:
+            - mongo
+
