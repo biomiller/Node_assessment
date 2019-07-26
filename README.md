@@ -8,10 +8,11 @@ Download this repository to your machine's home directory:
 `git clone https://github.com/biomiller/Node_assessment.git`
 `cd Node_assessment`
 
-Install docker and docker-compose:
+Install docker and docker-compose (requires sudo):
 
-`chmod 700 docker_install.sh`
-`./docker_install.sh`
+`chmod 700 docker_install.sh && ./docker_install.sh`
+
+_Your machine may need to be restarted._
 
 Initialise containers using docker-compose:
 
