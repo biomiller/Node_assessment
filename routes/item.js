@@ -4,7 +4,6 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const User = require("../models/user.js");
 const Item = require("../models/item.js");
-const validators = require("../utils/validators/item.js")
 const bcrypt = require("bcrypt");
 
 module.exports = router;

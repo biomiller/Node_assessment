@@ -1,0 +1,14 @@
+version: '3.7'
+services:          
+    mongo:
+        image: 'teamdeadweight/mongo:latest'
+        ports:
+            - {target: 27017, protocol: tcp, published: 27017}
+        deploy:
+         placement:
+          constraints: [node.role == manager]
+    server:
+     image: biomiller/db_server
+     depends_on:
+     - mongo
+
